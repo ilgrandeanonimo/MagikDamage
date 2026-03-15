@@ -1,0 +1,97 @@
+plugins {
+    id 'java'
+    id 'xyz.jpenilla.run-paper' version '2.3.1'
+    id 'io.github.goooler.shadow' version '8.1.8'
+    id 'io.freefair.lombok' version '8.14'
+    id 'org.cadixdev.licenser' version '0.6.1'
+}
+
+group = 'it.magnianonymous'
+version = '1.0.0-beta1'
+
+repositories {
+    mavenCentral()
+    // PaperMC
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+    // PacketEvents
+    maven {
+        url = "https://repo.codemc.io/repository/maven-releases/"
+    }
+    // MythicMobs & ModelEngine API
+    maven {
+        url = "https://mvn.lumine.io/repository/maven-public/"
+    }
+    // EntityLib
+    maven {
+        url = "https://maven.pvphub.me/tofaa"
+    }
+}
+
+dependencies {
+    implementation("de.exlll:configlib-yaml:${configlib_version}")
+    compileOnly("io.papermc.paper:paper-api:${minecraft_version}-R0.1-SNAPSHOT")
+    compileOnly("com.github.retrooper:packetevents-spigot:${packetevents_version}")
+    implementation "io.github.tofaa2:spigot:${entitylib_version}"
+}
+
+tasks {
+    runServer {
+        minecraftVersion("1.21.11")
+        jvmArgs = List.of("-Xmx6144m", "-Xms4096m")
+    }
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+processResources {
+    def props = [
+            version: version,
+            minecraft_version: minecraft_version,
+            packetevents_version: packetevents_version,
+            entitylib_version: entitylib_version,
+            configlib_version: configlib_version
+    ]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('paper-plugin.yml') {
+        expand props
+    }
+    filesMatching('paper-libraries.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    archiveFileName = "MagikDamage-${version}.jar"
+    relocate("de.exlll", "it.magnianonymous.libraries")
+    minimize()
+}
+
+license {
+    header = project.file("HEADER")
+    include '**/*.java'
+    newLine = true
+}

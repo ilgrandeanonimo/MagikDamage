@@ -1,0 +1,6 @@
+repositories:
+    codemc: "https://repo.codemc.io/repository/maven-releases"
+    pvphub: "https://maven.pvphub.me/tofaa"
+libraries:
+    - "com.github.retrooper:packetevents-spigot:${packetevents_version}"
+    - "io.github.tofaa2:spigot:${entitylib_version}"
