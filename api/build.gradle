@@ -1,0 +1,15 @@
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:${minecraft_version}-R0.1-SNAPSHOT")
+}
+
+publishing {
+    publications {
+        create('maven', MavenPublication) {
+            artifactId = 'api'
+            groupId = project.group
+            version = project.version
+
+            from components.java
+        }
+    }
+}
