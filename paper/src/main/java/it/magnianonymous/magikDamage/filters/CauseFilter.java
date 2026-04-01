@@ -18,9 +18,25 @@
 
 package it.magnianonymous.magikDamage.filters;
 
+import it.magnianonymous.magikDamage.Filter;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 
-public interface Filter {
-    String id();
-    boolean filter(String parameters, EntityEvent event);
+public class CauseFilter implements Filter {
+    @Override
+    public String name() {
+        return "cause";
+    }
+
+    @Override
+    public boolean filter(String parameters, EntityEvent event) {
+        if(event instanceof EntityDamageEvent e) {
+            return e.getCause().name().equals(parameters);
+        } else if(event instanceof EntityRegainHealthEvent e) {
+            return e.getRegainReason().name().equals(parameters);
+        }
+
+        return false;
+    }
 }

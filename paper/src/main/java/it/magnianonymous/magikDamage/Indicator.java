@@ -24,6 +24,7 @@ import de.exlll.configlib.Configuration;
 import de.exlll.configlib.SerializeWith;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
+import it.magnianonymous.magikDamage.configuration.serializers.FiltersSerializer;
 import it.magnianonymous.magikDamage.configuration.serializers.HexSerializer;
 import it.magnianonymous.magikDamage.misc.DecimalFormatter;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -45,6 +47,7 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Configuration
@@ -55,7 +58,8 @@ public class Indicator {
     private static MagikDamage plugin = MagikDamage.getInstance();
 
     private String format;
-    private HashMap<String, String> filters;
+    @SerializeWith(serializer = FiltersSerializer.class)
+    private Map<NamespacedKey, String> filters;
     private Display display;
 
     private transient HashMap<Integer, WrapperEntity> instances;
@@ -113,7 +117,7 @@ public class Indicator {
         meta.setPositionRotationInterpolationDuration(6);
         meta.setShadow(display.shadow);
 
-        final var text = Component
+        final Component text = Component
             .text(DecimalFormatter.format(format, healthVariation))
             .color(TextColor.color(display.foreground));
         meta.setText(text);
@@ -165,7 +169,7 @@ public class Indicator {
 
     public Indicator(
         String format,
-        HashMap<String, String> filters,
+        Map<NamespacedKey, String> filters,
         Display display
     ) {
         this.format = format;

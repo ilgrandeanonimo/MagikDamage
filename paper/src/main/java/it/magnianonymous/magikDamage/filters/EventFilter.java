@@ -18,13 +18,14 @@
 
 package it.magnianonymous.magikDamage.filters;
 
+import it.magnianonymous.magikDamage.Filter;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class EventFilter implements Filter {
     @Override
-    public String id() {
+    public String name() {
         return "event";
     }
 

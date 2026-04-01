@@ -26,6 +26,9 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import it.magnianonymous.magikDamage.configuration.Settings;
 import it.magnianonymous.magikDamage.configuration.serializers.ComponentSerializer;
 import it.magnianonymous.magikDamage.core.MagikCommand;
+import it.magnianonymous.magikDamage.filters.CauseFilter;
+import it.magnianonymous.magikDamage.filters.EntityFilter;
+import it.magnianonymous.magikDamage.filters.EventFilter;
 import it.magnianonymous.magikDamage.hooks.Hook;
 import it.magnianonymous.magikDamage.misc.DamageListener;
 import it.magnianonymous.magikDamage.misc.DecimalFormatter;
@@ -51,6 +54,7 @@ public final class MagikDamage extends JavaPlugin {
     private volatile Settings settings;
     @Getter(AccessLevel.NONE)
     private ConcurrentHashMap<Class<? extends Hook>, Hook> hooks;
+    private FiltersRegistry filtersRegistry;
 
     @Override
     public void onLoad() {
@@ -67,6 +71,7 @@ public final class MagikDamage extends JavaPlugin {
         loadHooks(
             // Hooks, Planned
         );
+        registerFilters();
         registerListeners();
         registerCommand();
     }
@@ -100,6 +105,13 @@ public final class MagikDamage extends JavaPlugin {
         }
     }
 
+    private void registerFilters() {
+        this.filtersRegistry = new FiltersRegistry();
+        filtersRegistry.registerMinecraftFilter(new CauseFilter());
+        filtersRegistry.registerMinecraftFilter(new EntityFilter());
+        filtersRegistry.registerMinecraftFilter(new EventFilter());
+    }
+
     private void loadConfiguration() {
         final File configFile = new File(getDataFolder(), "config.yml");
         final YamlConfigurationStore<Settings> configStore =
@@ -116,7 +128,7 @@ public final class MagikDamage extends JavaPlugin {
 
     private void registerListeners() {
         final PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new DamageListener(this), this);
+        pluginManager.registerEvents(new DamageListener(this, filtersRegistry), this);
     }
 
     private void registerCommand() {

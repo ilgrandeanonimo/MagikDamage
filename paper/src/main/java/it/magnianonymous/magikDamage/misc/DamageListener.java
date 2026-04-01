@@ -18,14 +18,13 @@
 
 package it.magnianonymous.magikDamage.misc;
 
+import it.magnianonymous.magikDamage.Filter;
+import it.magnianonymous.magikDamage.FiltersRegistry;
 import it.magnianonymous.magikDamage.Indicator;
 import it.magnianonymous.magikDamage.MagikDamage;
-import it.magnianonymous.magikDamage.filters.CauseFilter;
-import it.magnianonymous.magikDamage.filters.EntityFilter;
-import it.magnianonymous.magikDamage.filters.EventFilter;
-import it.magnianonymous.magikDamage.filters.Filter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Entity;
@@ -44,18 +43,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public final class DamageListener implements Listener {
     private final MagikDamage plugin;
-    private final Map<String, Filter> filters = Map.of(
-        "cause", new CauseFilter(),
-        "entity", new EntityFilter(),
-        "event", new EventFilter()
-    );
+    private final FiltersRegistry filtersRegistry;
 
     private Optional<Indicator> findIndicator(EntityEvent event) {
-        final var indicators = plugin.getSettings().getIndicators();
+        final Map<String, Indicator> indicators = plugin.getSettings().getIndicators();
 
         Indicator defaultIndicator = null;
         for(var indicator : indicators.values()) {
-            var indicatorFilters = indicator.getFilters();
+            Map<NamespacedKey, String> indicatorFilters = indicator.getFilters();
             if(indicatorFilters == null || indicatorFilters.isEmpty()) {
                 defaultIndicator = indicator;
                 continue;
@@ -63,7 +58,7 @@ public final class DamageListener implements Listener {
 
             boolean allMatch = true;
             for(var entry : indicatorFilters.entrySet()) {
-                var filter = filters.get(entry.getKey());
+                Filter filter = filtersRegistry.get(entry.getKey());
                 if(filter == null || !filter.filter(entry.getValue(), event)) {
                     allMatch = false;
                     break;

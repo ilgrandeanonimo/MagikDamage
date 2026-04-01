@@ -18,12 +18,13 @@
 
 package it.magnianonymous.magikDamage.filters;
 
+import it.magnianonymous.magikDamage.Filter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.entity.EntityEvent;
 
 public class EntityFilter implements Filter {
     @Override
-    public String id() {
+    public String name() {
         return "entity";
     }
 

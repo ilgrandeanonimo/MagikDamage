@@ -1,1 +1,4 @@
 rootProject.name = 'MagikDamage'
+
+include 'api'
+include 'paper'

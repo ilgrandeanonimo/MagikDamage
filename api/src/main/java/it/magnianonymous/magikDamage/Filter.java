@@ -16,26 +16,13 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package it.magnianonymous.magikDamage.filters;
+package it.magnianonymous.magikDamage;
 
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 
-public class CauseFilter implements Filter {
-    @Override
-    public String id() {
-        return "cause";
-    }
+import javax.annotation.Nullable;
 
-    @Override
-    public boolean filter(String parameters, EntityEvent event) {
-        if(event instanceof EntityDamageEvent e) {
-            return e.getCause().name().equals(parameters);
-        } else if(event instanceof EntityRegainHealthEvent e) {
-            return e.getRegainReason().name().equals(parameters);
-        }
-
-        return false;
-    }
+public interface Filter {
+    String name();
+    boolean filter(@Nullable String parameters, EntityEvent event);
 }
