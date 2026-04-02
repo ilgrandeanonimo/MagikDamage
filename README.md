@@ -20,7 +20,7 @@ customizable indicators handled entirely via packets.
 * **Java:** Requires **Java 21** or later.
 > **Note:** It has been tested just on 1.21.4+ version and may not work on older version. If you encounter any problems, don't hesitate to open an issue on GitHub or ask for help on my Discord server.
 
-## ⚙️ Configuration (`settings.yml`)
+## ⚙️ Configuration (`config.yml`)
 
 The plugin uses a flexible filtering logic. If no specific filter matches an event, it will automatically look for a fallback indicator.
 
