@@ -1,0 +1,11 @@
+name: MagikDamage
+version: '${plugin_version}'
+main: it.magnianonymous.magikDamage.MagikDamage
+loader: it.magnianonymous.magikDamage.core.MagikLoader
+api-version: '${minecraft_version}'
+load: STARTUP
+authors: [ IlGrandeAnonimo ]
+description: Async and packet-based damage indicator plugin
+permissions:
+    magikdamage.op:
+        default: op

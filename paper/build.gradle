@@ -1,0 +1,41 @@
+plugins {
+    id 'xyz.jpenilla.run-paper' version '3.0.2'
+}
+
+dependencies {
+    implementation(project(":api"))
+    implementation("de.exlll:configlib-paper:4.8.1")
+    compileOnly("io.papermc.paper:paper-api:${minecraftVersion}-R0.1-SNAPSHOT")
+    compileOnly("com.github.retrooper:packetevents-spigot:${packetEventsVersion}")
+    implementation "io.github.tofaa2:spigot:${entityLibVersion}"
+}
+
+tasks {
+    runServer {
+        minecraftVersion(minecraftVersion)
+        jvmArgs = List.of("-Xmx4096m", "-Xms4096m")
+    }
+}
+
+processResources {
+    def props = [
+            plugin_version: version,
+            minecraft_version: minecraftVersion,
+            packetevents_version: packetEventsVersion,
+            entitylib_version: entityLibVersion
+    ]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('paper-plugin.yml') {
+        expand props
+    }
+    filesMatching('paper-libraries.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    archiveFileName = "MagikDamage-${version}.jar"
+    relocate("de.exlll", "it.magnianonymous.libraries")
+    minimize()
+}
