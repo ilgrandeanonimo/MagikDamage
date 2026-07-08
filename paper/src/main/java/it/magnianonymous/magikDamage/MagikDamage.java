@@ -25,11 +25,11 @@ import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import it.magnianonymous.magikDamage.configuration.Settings;
 import it.magnianonymous.magikDamage.configuration.serializer.MiniMessageSerializer;
-import it.magnianonymous.magikDamage.paper.MagikCommand;
 import it.magnianonymous.magikDamage.filters.CauseFilter;
 import it.magnianonymous.magikDamage.filters.EntityFilter;
 import it.magnianonymous.magikDamage.filters.EventFilter;
 import it.magnianonymous.magikDamage.listener.DamageListener;
+import it.magnianonymous.magikDamage.paper.MagikCommand;
 import it.magnianonymous.magikDamage.utils.DecimalFormatter;
 import lombok.Getter;
 import me.tofaa.entitylib.APIConfig;
@@ -90,9 +90,8 @@ public final class MagikDamage extends JavaPlugin {
 
     private void registerFilters() {
         this.filtersRegistry = new FiltersRegistry();
-        filtersRegistry.registerMinecraftFilter(new CauseFilter());
-        filtersRegistry.registerMinecraftFilter(new EntityFilter());
-        filtersRegistry.registerMinecraftFilter(new EventFilter());
+        filtersRegistry.registerDefault(new CauseFilter(),
+            new EntityFilter(), new EventFilter());
     }
 
     private void loadConfiguration() {

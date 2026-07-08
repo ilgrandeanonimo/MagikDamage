@@ -23,7 +23,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 
-public class CauseFilter implements Filter {
+public final class CauseFilter implements Filter {
     @Override
     public String name() {
         return "cause";

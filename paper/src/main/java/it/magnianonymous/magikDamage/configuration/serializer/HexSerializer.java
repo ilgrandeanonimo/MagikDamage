@@ -20,7 +20,7 @@ package it.magnianonymous.magikDamage.configuration.serializer;
 
 import de.exlll.configlib.Serializer;
 
-public class HexSerializer implements Serializer<Integer, String> {
+public final class HexSerializer implements Serializer<Integer, String> {
     @Override
     public String serialize(Integer integer) {
         return String.format("#%08x", integer);

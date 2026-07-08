@@ -22,7 +22,7 @@ import it.magnianonymous.magikDamage.Filter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.entity.EntityEvent;
 
-public class EntityFilter implements Filter {
+public final class EntityFilter implements Filter {
     @Override
     public String name() {
         return "entity";

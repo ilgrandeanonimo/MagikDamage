@@ -59,7 +59,7 @@ public final class MagikLoader implements PluginLoader {
     @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         final MavenLibraryResolver resolver = new MavenLibraryResolver();
-        PaperLibraries paperLibraries = getPaperLibraries();
+        final PaperLibraries paperLibraries = getPaperLibraries();
         paperLibraries.repositories.forEach((id, url) ->
             resolver.addRepository(new RemoteRepository.Builder(
                 id, "default", url

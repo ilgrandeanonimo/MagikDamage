@@ -28,7 +28,7 @@ import java.util.Map;
 @Getter
 @Configuration
 @SuppressWarnings("FieldMayBeFinal")
-public class Settings {
+public final class Settings {
     private Map<String, Format> formats = Map.of(
         "european", new Format(
             "#,###.##",

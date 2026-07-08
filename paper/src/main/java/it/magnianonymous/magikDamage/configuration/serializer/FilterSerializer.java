@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FilterSerializer implements Serializer<Map<NamespacedKey, String>, List<String>> {
+public final class FilterSerializer implements Serializer<Map<NamespacedKey, String>, List<String>> {
     private String filterStringRepresentation(NamespacedKey key, @Nullable String parameter) {
         if(parameter != null) {
             return String.format("%s=%s", parameter, key.toString());

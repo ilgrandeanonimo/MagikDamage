@@ -25,7 +25,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 import java.util.Objects;
 
-public class EventFilter implements Filter {
+public final class EventFilter implements Filter {
     @Override
     public String name() {
         return "event";

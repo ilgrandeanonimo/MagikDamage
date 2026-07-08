@@ -53,7 +53,7 @@ import java.util.Map;
 @Configuration
 @NoArgsConstructor
 @SuppressWarnings("unused")
-public class Indicator {
+public final class Indicator {
     private static BukkitScheduler scheduler = Bukkit.getScheduler();
     private static MagikDamage plugin = MagikDamage.getInstance();
 
@@ -153,7 +153,7 @@ public class Indicator {
     @Configuration
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Display {
+    public final static class Display {
         @SerializeWith(serializer = HexSerializer.class)
         int background;
         @SerializeWith(serializer = HexSerializer.class)

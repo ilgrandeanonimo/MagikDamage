@@ -33,14 +33,18 @@ public class FiltersRegistry {
     private static FiltersRegistry instance;
     private final ConcurrentHashMap<NamespacedKey, Filter> filters;
 
-    /// Register a filter in your plugin's namespace
-    public void register(JavaPlugin plugin, Filter filter) {
-        filters.put(new NamespacedKey(plugin, filter.name()), filter);
+    /// Register multiple filters in your plugin's namespace
+    public void register(JavaPlugin plugin, Filter... filters) {
+        for (Filter filter : filters) {
+            this.filters.put(new NamespacedKey(plugin, filter.name()), filter);
+        }
     }
 
-    /// Register a filter using a custom key
-    public void register(NamespacedKey key, Filter filter) {
-        filters.put(key, filter);
+    /// Register filters in a custom namespace
+    public void register(String namespace, Filter... filters) {
+        for (Filter filter : filters) {
+            this.filters.put(new NamespacedKey(namespace, filter.name()), filter);
+        }
     }
 
     /// Check if a filter is registered
@@ -59,8 +63,10 @@ public class FiltersRegistry {
     }
 
     @ApiStatus.Internal
-    public void registerMinecraftFilter(Filter filter) {
-        filters.put(NamespacedKey.minecraft(filter.name()), filter);
+    public void registerDefault(Filter... filters) {
+        for (Filter filter : filters) {
+            this.filters.put(NamespacedKey.minecraft(filter.name()), filter);
+        }
     }
 
     public FiltersRegistry() {

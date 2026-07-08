@@ -22,7 +22,7 @@ import de.exlll.configlib.Serializer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-public class MiniMessageSerializer implements Serializer<Component, String> {
+public final class MiniMessageSerializer implements Serializer<Component, String> {
     @Override
     public String serialize(Component component) {
         return MiniMessage.miniMessage().serialize(component);
