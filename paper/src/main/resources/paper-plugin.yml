@@ -1,7 +1,7 @@
 name: MagikDamage
 version: '${plugin_version}'
 main: it.magnianonymous.magikDamage.MagikDamage
-loader: it.magnianonymous.magikDamage.core.MagikLoader
+loader: it.magnianonymous.magikDamage.paper.MagikLoader
 api-version: '${minecraft_version}'
 load: STARTUP
 authors: [ IlGrandeAnonimo ]
