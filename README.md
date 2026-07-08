@@ -68,14 +68,14 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 ```
-then, add to your project's dependencies:
+add to your project's dependencies:
 ```groovy
 dependencies {
     compileOnly 'com.github.ilgrandeanonimo:MagikDamage:1.0.0-beta2'
 }
 ```
 
-then you can create your filter by implementing the `Filter` interface:
+create your filter by implementing the `Filter` interface:
 ```java
 // This is the implementation of the built-in `minecraft:event` filter.
 public class EventFilter implements Filter {
@@ -92,6 +92,19 @@ public class EventFilter implements Filter {
             return event instanceof EntityDamageEvent;
         }
         return false;
+    }
+}
+```
+
+and finally register it:
+```java
+public class MyPlugin implements JavaPlugin {
+    @Override 
+    public void onEnable() {
+        // First argument the plugin or a namespace
+        // Then your custom filters
+        FiltersRegistry.getInstance().register(this, 
+                new EventFilter(), new MobFilter());
     }
 }
 ```
